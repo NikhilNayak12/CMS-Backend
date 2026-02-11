@@ -1,22 +1,40 @@
-import express from 'express';
-import userRouter from './routes/user.routes.js';
-import dotenv from "dotenv";
-import connectDB from "./config/db.js";
-
+import express from "express";
+import cors from "cors";
+import morgan from "morgan";
+import authRoutes from "./routes/auth.route.js";
+import artifactRoutes from "./routes/artifacts.route.js"
+import likes from "./routes/likes.route.js";
+import comment from "./routes/comment.route.js";
+import cookieParser from "cookie-parser";
 const app = express();
 
-dotenv.config();
-connectDB();
+/* Middlewares */
+app.use(cors());
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+app.use(morgan("dev"));
 
-//BODY PARSER(JSON)
-app.use(express.json());
 
-//BASE ROUTE
-app.get("/",(req,res)=>{
-    res.send("User Management API is running");
+
+app.use(cookieParser());
+/* Test Route */
+app.get("/", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "CMS Backend is running"
+  });
 });
 
-//USER ROUTES
-app.use("/api/users",userRouter);
-
+app.use("/auth",authRoutes);
+app.use("/artifacts", artifactRoutes);
+app.use("/likes", likes);
+app.use("/comments", comment);
 export default app;
+
+
+
+
+// app.use(cors({
+//   origin: ["https://cms-admin.vercel.app"],
+//   credentials: true
+// }));
