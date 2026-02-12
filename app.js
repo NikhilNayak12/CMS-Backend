@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
+import webhookRoutes from "./webhook/webhook.js";
 import authRoutes from "./routes/auth.route.js";
 import artifactRoutes from "./routes/artifacts.route.js"
 import likes from "./routes/likes.route.js";
@@ -25,6 +26,7 @@ app.get("/", (req, res) => {
   });
 });
 
+app.use("/webhook",webhookRoutes);
 app.use("/auth",authRoutes);
 app.use("/artifacts", artifactRoutes);
 app.use("/likes", likes);
