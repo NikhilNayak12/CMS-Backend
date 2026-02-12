@@ -7,7 +7,6 @@ router.post("/test",(req,res)=>{
     console.log("Request Body:", req.body);
 
     res.status(200).json({received:true});
-    res.json({received:true});
 });
 
 export default router;
